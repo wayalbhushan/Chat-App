@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/styles.css">
+    <title>Chat app</title>
+</head>
+<body>
+    <h1>Welcome to the Chat App</h1>
+
+    <div class="main-container">
+        <div class="new-chat-btn">
+            <form method="GET" action="/chat/new">
+                <button type="submit">New Chat</button>
+            </form>
+        </div>
+        <% for (let chat of chats) { %>
+            <div class="chat">
+                <div class="chat-header">From: <%= chat.from %></div>
+                <div class="msg"><%= chat.message %></div>
+                <div class="chat-time">
+                  <%= chat.createdAt
+                      ? new Date(chat.createdAt).toLocaleString('en-IN', {
+                            hour: '2-digit',
+                            minute: '2-digit',
+                            hour12: true,
+                            day: '2-digit',
+                            month: 'short',
+                            year: '2-digit'
+                        })
+                      : 'Unknown time'
+                  %>
+                </div>
+                <div class="msg-actions">
+                    <form method="GET" action="/chat/<%= chat._id %>/edit">
+                        <button>Edit</button>
+                    </form>
+                    <form action="/chat/<%= chat._id %>?_method=DELETE" method="POST">
+                        <button type="submit">Delete</button>
+                    </form>
+                </div>
+                <div class="chat-footer">To: <%= chat.to %></div>
+            </div>
+        <% } %>
+    </div>
+
+    
+</body>
+</html>
